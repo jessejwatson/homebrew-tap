@@ -1,8 +1,8 @@
 class MacroMaster < Formula
   desc "Save and run macro commands, with git-synced shared libraries"
   homepage "https://github.com/jessejwatson/macro-master"
-  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.4.tar.gz"
-  sha256 "faf368ca94bb575cf87d6b76ef8294424a177d325d177839483b4d3da56b9b72"
+  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.5.tar.gz"
+  sha256 "1a765dd8a7045f1da40fc1b59d0781c4b5061574cf1e25e70f51a7b9f47a4662"
   license "MIT"
   head "https://github.com/jessejwatson/macro-master.git", branch: "main"
 
@@ -18,7 +18,8 @@ class MacroMaster < Formula
   def caveats
     <<~EOS
       Run `mm` to open the picker, or `mm add <name>` to save the clipboard.
-      `mm -d <name>` runs a macro detached; `mm attach` reconnects to it.
+      `mm -d <name>` runs a macro detached (`-n <job name>` names it);
+      `mm attach` reconnects to it.
       `mm config` opens the settings panel.
 
       For macros marked `# mode: source` (cd, export and the like), add the
@@ -42,12 +43,12 @@ class MacroMaster < Formula
     assert_match "jobs.notify = off", shell_output("#{bin}/mm config")
 
     # A detached job runs on its own terminal and keeps its output.
-    assert_match "Started job 1", shell_output("#{bin}/mm -d hi who=job 2>&1")
+    assert_match "Started job 1 (greet)", shell_output("#{bin}/mm -d -n greet hi who=job 2>&1")
     20.times do
       break if shell_output("#{bin}/mm jobs").include?("exit 0")
 
       sleep 0.5
     end
-    assert_match "hello job", shell_output("#{bin}/mm attach 1")
+    assert_match "hello job", shell_output("#{bin}/mm attach greet")
   end
 end
