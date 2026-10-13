@@ -1,8 +1,8 @@
 class Pingy < Formula
   desc "Ping many hosts at once in the background, and graph them in the terminal"
   homepage "https://github.com/jessejwatson/pingy"
-  url "https://github.com/jessejwatson/pingy/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "2c26ec4967e6030afd6da476cd527dbb475211f48d062c946ae57ca3b558e0ae"
+  url "https://github.com/jessejwatson/pingy/archive/refs/tags/v0.1.4.tar.gz"
+  sha256 "61207fc8bf1bbb94266ad3832cc1edd8b51980a7ded0747aec7163dcd23869ab"
   license "MIT"
   head "https://github.com/jessejwatson/pingy.git", branch: "main"
 
@@ -18,8 +18,8 @@ class Pingy < Formula
       panel to search hosts and see their graphs, `pingy -l` lists them and
       `pingy -g` graphs them all.
 
-      Background pings stop when you log out or restart; `pingy -r` starts
-      them all again.
+      `pingy -p` pauses every host, keeping their history. Background pings
+      also stop when you log out or restart; `pingy -r` starts them all again.
     EOS
   end
 
