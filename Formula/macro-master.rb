@@ -1,8 +1,8 @@
 class MacroMaster < Formula
   desc "Save and run macro commands, with git-synced shared libraries"
   homepage "https://github.com/jessejwatson/macro-master"
-  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.15.tar.gz"
-  sha256 "bdf5ecaa718a3f213670947f691d700b260cbefd9edbe659a5be046ba50acaa1"
+  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.16.tar.gz"
+  sha256 "7700bab497b71f96a684395e80f565fb27883cd916a88fc9785dddad3beaa660"
   license "MIT"
   head "https://github.com/jessejwatson/macro-master.git", branch: "main"
 
@@ -22,8 +22,9 @@ class MacroMaster < Formula
       `mm attach` reconnects to it.
       `mm config` opens the settings panel.
 
-      For macros marked `# mode: source` (cd, export and the like), add the
-      shell hook to your shell config:
+      For aliases (`mm alias add`), typed without `mm`, and macros marked
+      `# mode: source` (cd, export and the like), add the shell hook to your
+      shell config:
         zsh:  eval "$(mm init zsh)"       in ~/.zshrc
         bash: eval "$(mm init bash)"      in ~/.bashrc
         fish: mm init fish | source       in ~/.config/fish/config.fish
@@ -36,6 +37,8 @@ class MacroMaster < Formula
     assert_match "personal", shell_output("#{bin}/mm lib ls")
     (testpath/"mm/libraries/personal/hi.sh").write "echo hello {{who:world}}\n"
     assert_equal "hello brew\n", shell_output("#{bin}/mm hi who=brew")
+    shell_output("#{bin}/mm alias add greet hi who=alias 2>&1")
+    assert_equal "hello alias\n", shell_output("#{bin}/mm __alias greet")
     assert_match "__complete", shell_output("#{bin}/mm completion zsh")
 
     assert_equal "#{testpath}/mm/config.json\n", shell_output("#{bin}/mm config path")
