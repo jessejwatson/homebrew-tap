@@ -1,8 +1,8 @@
 class MacroMaster < Formula
   desc "Save and run macro commands, with git-synced shared libraries"
   homepage "https://github.com/jessejwatson/macro-master"
-  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.16.tar.gz"
-  sha256 "7700bab497b71f96a684395e80f565fb27883cd916a88fc9785dddad3beaa660"
+  url "https://github.com/jessejwatson/macro-master/archive/refs/tags/v0.1.17.tar.gz"
+  sha256 "cc288c4bd29f9ab3d0d0296e4ec0702114c55596641cf378839d9b4f2f9028f4"
   license "MIT"
   head "https://github.com/jessejwatson/macro-master.git", branch: "main"
 
@@ -28,6 +28,10 @@ class MacroMaster < Formula
         zsh:  eval "$(mm init zsh)"       in ~/.zshrc
         bash: eval "$(mm init bash)"      in ~/.bashrc
         fish: mm init fish | source       in ~/.config/fish/config.fish
+
+      On macOS, `mm bind add <keys> <macro>` runs a macro from any app when
+      the keys are pressed; start the hotkey service once with:
+        mm bind service install
     EOS
   end
 
@@ -40,6 +44,7 @@ class MacroMaster < Formula
     shell_output("#{bin}/mm alias add greet hi who=alias 2>&1")
     assert_equal "hello alias\n", shell_output("#{bin}/mm __alias greet")
     assert_match "__complete", shell_output("#{bin}/mm completion zsh")
+    assert_match "No key bindings yet", shell_output("#{bin}/mm bind ls 2>&1")
 
     assert_equal "#{testpath}/mm/config.json\n", shell_output("#{bin}/mm config path")
     (testpath/"mm/config.json").write '{"default_library":"personal","jobs":{"notify":"off"}}'
